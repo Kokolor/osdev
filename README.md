@@ -29,10 +29,10 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] First boot
 - [x] GDT
 - [x] IDT
-- [ ] Printf
+- [x] Very Basic Printf
 - [ ] PIC
 - [ ] IRQs
-- [ ] PMM
+- [x] PMM
 - [ ] VMM
 - [ ] Heap
 - [ ] PCI

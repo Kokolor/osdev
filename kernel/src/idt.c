@@ -2,7 +2,7 @@
 // Created by kokolor on 29/04/25.
 //
 
-#include "io.h"
+#include "panic.h"
 #include "idt.h"
 
 struct idt_entry g_idt_entries[256];
@@ -45,9 +45,7 @@ const char* exception_messages[32] = {
 
 void exception_handler(int int_number)
 {
-    e9_printf("!! KERNEL PANIC !!\nException: %s", exception_messages[int_number]);
-
-    asm("cli; hlt");
+    panic(exception_messages[int_number]);
 }
 
 void idt_set_entry(const uint8_t vector, void* isr, const uint8_t flags)
