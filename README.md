@@ -29,8 +29,6 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] First boot
 - [x] GDT
 - [x] IDT
-- [ ] Basic Graphics
-- [ ] Printing onto the screen
 - [ ] Printf
 - [ ] PIC
 - [ ] IRQs
@@ -41,11 +39,16 @@ This kernel is currently in the early development stage. Documentation will be p
 - [ ] PIT
 - [ ] Scheduler
 - [ ] Syscalls
+- [ ] User task
 - [ ] FS
 - [ ] PS2 Keyboard
 - [ ] PS2 Mouse
 - [ ] Double Buffering
 - [ ] Program Loading
+- [ ] Basic Graphics
+- [ ] Printing onto the screen
+- [ ] Shell
+- [ ] Basic GUI
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.

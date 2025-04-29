@@ -45,8 +45,7 @@ const char* exception_messages[32] = {
 
 void exception_handler(int int_number)
 {
-    e9_print_string("Exception: ");
-    e9_print_string(exception_messages[int_number]);
+    e9_printf("!! KERNEL PANIC !!\nException: %s", exception_messages[int_number]);
 
     asm("cli; hlt");
 }
