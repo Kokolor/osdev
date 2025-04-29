@@ -29,7 +29,9 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] First boot
 - [x] GDT
 - [x] IDT
-- [ ] Graphics
+- [ ] Basic Graphics
+- [ ] Printing onto the screen
+- [ ] Printf
 - [ ] PIC
 - [ ] IRQs
 - [ ] PMM
