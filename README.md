@@ -33,7 +33,7 @@ This kernel is currently in the early development stage. Documentation will be p
 - [ ] PIC
 - [ ] IRQs
 - [x] PMM
-- [ ] VMM
+- [x] VMM
 - [ ] Heap
 - [ ] PCI
 - [ ] PIT
