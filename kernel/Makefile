@@ -22,8 +22,7 @@ CFLAGS := \
 	-mno-sse \
 	-mno-sse2 \
 	-mno-red-zone \
-	-mcmodel=kernel \
-	-masm=intel
+	-mcmodel=kernel
 
 LDFLAGS := \
 	-nostdlib \
@@ -35,7 +34,8 @@ LDFLAGS := \
 
 $(OUTPUT): $(OBJECTS)
 	nasm -f elf64 src/gdt.asm -o src/a_gdt.o
-	$(LD) $(LDFLAGS) $(OBJECTS) src/a_gdt.o -o $@
+	nasm -f elf64 src/idt.asm -o src/a_idt.o
+	$(LD) $(LDFLAGS) $(OBJECTS) src/a_gdt.o src/a_idt.o -o $@
 
 .PHONY: clean
 clean:

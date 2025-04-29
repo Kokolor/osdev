@@ -25,7 +25,7 @@ $(IMAGE): kernel
 
 .PHONY: run
 run: $(IMAGE)
-	qemu-system-x86_64 -m 512M -enable-kvm -smp 2 -cdrom $<
+	qemu-system-x86_64 -m 512M -enable-kvm -debugcon stdio -smp 2 -cdrom $<
 
 .PHONY: clean
 clean:

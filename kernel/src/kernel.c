@@ -6,6 +6,7 @@
 
 #include "limine.h"
 #include "gdt.h"
+#include "idt.h"
 
 __attribute__((used, section(".limine_requests")))
 LIMINE_BASE_REVISION(3);
@@ -20,6 +21,7 @@ void entry()
 {
     const struct limine_framebuffer* framebuffer = framebuffer_request.response->framebuffers[0];
     gdt_init();
+    idt_init();
 
     for (size_t i = 0; i < 100; i++)
     {

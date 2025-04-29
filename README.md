@@ -27,10 +27,11 @@ This kernel is currently in the early development stage. Documentation will be p
 
 ## TODO
 - [x] First boot
-- [ ] GDT
-- [ ] IDT
+- [x] GDT
+- [x] IDT
 - [ ] Graphics
 - [ ] PIC
+- [ ] IRQs
 - [ ] PMM
 - [ ] VMM
 - [ ] Heap
