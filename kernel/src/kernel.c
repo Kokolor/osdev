@@ -27,7 +27,6 @@ uint64_t read_cr3(void)
     return value;
 }
 
-
 void entry()
 {
     const struct limine_framebuffer* framebuffer = framebuffer_request.response->framebuffers[0];

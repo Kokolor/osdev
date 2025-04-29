@@ -35,18 +35,19 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] PMM
 - [x] VMM
 - [ ] Heap
-- [ ] PCI
 - [ ] PIT
 - [ ] Scheduler
 - [ ] Syscalls
 - [ ] User task
-- [ ] FS
+- [ ] Simple ramdisk
+- [ ] Program Loading
+- [ ] PCI
 - [ ] PS2 Keyboard
 - [ ] PS2 Mouse
 - [ ] Double Buffering
-- [ ] Program Loading
 - [ ] Basic Graphics
 - [ ] Printing onto the screen
+- [ ] FS
 - [ ] Shell
 - [ ] Basic GUI
 
