@@ -9,6 +9,7 @@
 #include "idt.h"
 #include "io.h"
 #include "pmm.h"
+#include "vmm.h"
 
 __attribute__((used, section(".limine_requests")))
 LIMINE_BASE_REVISION(3);
@@ -19,12 +20,21 @@ struct limine_framebuffer_request framebuffer_request = {
     .revision = 0
 };
 
+uint64_t read_cr3(void)
+{
+    uint64_t value;
+    __asm__ volatile ("mov %%cr3, %0" : "=r"(value) : : "memory");
+    return value;
+}
+
+
 void entry()
 {
     const struct limine_framebuffer* framebuffer = framebuffer_request.response->framebuffers[0];
     gdt_init();
     idt_init();
     pmm_init();
+    vmm_init();
 
     for (size_t i = 0; i < 100; i++)
     {
@@ -32,33 +42,10 @@ void entry()
         framebuffer_ptr[(framebuffer->pitch / 4) + i] = 0xffffff;
     }
 
-    e9_printf("PMM Test Starting");
-
-    e9_printf("\nAllocating 3 pages...");
-    void* page1 = pmm_alloc_page();
-    void* page2 = pmm_alloc_page();
-    void* page3 = pmm_alloc_page();
-
-    e9_printf("Page 1 allocated at: 0x%x", (uint64_t)page1);
-    e9_printf("Page 2 allocated at: 0x%x", (uint64_t)page2);
-    e9_printf("Page 3 allocated at: 0x%x", (uint64_t)page3);
-
-    e9_printf("\nFreeing pages...");
-    e9_printf("Freeing page 1 (0x%x)", (uint64_t)page1);
-    pmm_free_page(page1);
-
-    e9_printf("Freeing page 2 (0x%x)", (uint64_t)page2);
-    pmm_free_page(page2);
-
-    e9_printf("Freeing page 3 (0x%x)", (uint64_t)page3);
-    pmm_free_page(page3);
-
-    e9_printf("\nTesting reallocation...");
-    void* new_page = pmm_alloc_page();
-    e9_printf("Reallocated page at: 0x%x", (uint64_t)new_page);
-
-    e9_printf("PMM Test Complete");
-
+    e9_printf("Current CR3: %x", read_cr3());
+    uint64_t* new_pml4 = vmm_new_pml4();
+    vmm_switch_pml4(new_pml4);
+    e9_printf("New CR3: %x", read_cr3());
 
     asm("hlt; hlt");
 }

@@ -18,17 +18,27 @@ SECTIONS {
 
     . = ALIGN(CONSTANT(MAXPAGESIZE));
 
+    text_start = .;
+
     .text : {
         *(.text .text.*)
     } :text
 
+    text_end = .;
+
     . = ALIGN(CONSTANT(MAXPAGESIZE));
+
+    rodata_start = .;
 
     .rodata : {
         *(.rodata .rodata.*)
     } :rodata
 
+    rodata_end = .;
+
     . = ALIGN(CONSTANT(MAXPAGESIZE));
+
+    data_start = .;
 
     .data : {
         *(.data .data.*)
@@ -38,6 +48,8 @@ SECTIONS {
         *(.bss .bss.*)
         *(COMMON)
     } :data
+
+    data_end = .;
 
     /DISCARD/ : {
         *(.eh_frame*)

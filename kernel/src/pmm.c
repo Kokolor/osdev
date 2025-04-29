@@ -78,7 +78,7 @@ void* pmm_alloc_page(void)
             BITMAP_SET(g_pmm_info.bitmap, i);
             g_pmm_info.free_pages--;
 
-            return PHYS_TO_VIRT(i * 4096);
+            return (void*)(i * 4096);
         }
     }
 
