@@ -24,7 +24,7 @@ void gdt_init(void)
 {
     uint64_t stack = 0;
     __asm__ volatile ("movq %%rsp, %0" : "=r"(stack));
-    g_tss.rsp0 = stack + 0x4000; // 16 384 OMGGGG SKIBIDIIII QUOICOUBAKA LES COPAINS
+    g_tss.rsp0 = stack + 0x4000; // 16 384 OMGGGG SKIBIDIIII QUOICOUBAKA LE
     g_tss.io_map_base = sizeof(g_tss);
 
     g_gdt_entries[0] = 0x0000000000000000;

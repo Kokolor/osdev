@@ -38,13 +38,13 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] PIT
 - [x] Scheduler
 - [x] TSS
+- [x] Basic Graphics 
+- [ ] Printing onto the screen
 - [ ] User task
 - [ ] SMP
 - [ ] Syscalls
 - [ ] Simple ramdisk
 - [ ] Program Loading
-- [ ] Basic Graphics 
-- [ ] Printing onto the screen
 - [ ] PS2 Keyboard
 - [ ] PS2 Mouse
 - [ ] Double Buffering

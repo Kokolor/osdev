@@ -4,6 +4,7 @@
 
 #include "limine.h"
 #include "gdt.h"
+#include "graphics.h"
 #include "heap.h"
 #include "idt.h"
 #include "io.h"
@@ -15,23 +16,11 @@
 __attribute__((used, section(".limine_requests")))
 LIMINE_BASE_REVISION(3);
 
-__attribute__((used, section(".limine_requests")))
-struct limine_framebuffer_request framebuffer_request = {
-    .id = LIMINE_FRAMEBUFFER_REQUEST,
-    .revision = 0
-};
-
-const struct limine_framebuffer* g_framebuffer;
-
 void task1(void)
 {
     while (1)
     {
-        e9_printf("1");
-        for (volatile uint64_t i = 0; i < 1000000; i++)
-        {
-            __asm__ __volatile__("pause");
-        }
+        set_rectangle(125, 125, 95, 45, 0x00FF00);
     }
 }
 
@@ -39,16 +28,12 @@ void task2(void)
 {
     while (1)
     {
-        e9_printf("2");
-        for (volatile uint64_t i = 0; i < 1000000; i++)
-        {
-            __asm__ __volatile__("pause");
-        }
+        set_rectangle(15, 15, 75, 15, 0xFF0000);
     }
 }
+
 void entry()
 {
-    g_framebuffer = framebuffer_request.response->framebuffers[0];
     gdt_init();
     e9_printf("GDT Initialized");
     idt_init();
@@ -57,6 +42,8 @@ void entry()
     e9_printf("PMM Initialized");
     vmm_init();
     e9_printf("VMM Initialized");
+
+    framebuffer_init();
 
     void* heap_start = PHYS_TO_VIRT(pmm_alloc_page());
     heap_init(&g_kernel_heap, heap_start, 4 * 4096);

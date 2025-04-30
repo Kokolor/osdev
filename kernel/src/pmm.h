@@ -5,6 +5,8 @@
 #ifndef PMM_H
 #define PMM_H
 
+#include <stdint.h>
+
 uint64_t get_hhdm_offset(void);
 
 // Alors ça, je mange du caca
