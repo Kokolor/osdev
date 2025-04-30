@@ -34,7 +34,7 @@ This kernel is currently in the early development stage. Documentation will be p
 - [ ] IRQs
 - [x] PMM
 - [x] VMM
-- [ ] Heap
+- [x] Heap
 - [ ] PIT
 - [ ] Scheduler
 - [ ] Syscalls

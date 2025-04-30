@@ -6,6 +6,7 @@
 
 #include "limine.h"
 #include "gdt.h"
+#include "heap.h"
 #include "idt.h"
 #include "io.h"
 #include "pmm.h"
@@ -45,6 +46,9 @@ void entry()
     uint64_t* new_pml4 = vmm_new_pml4();
     vmm_switch_pml4(new_pml4);
     e9_printf("New CR3: %x", read_cr3());
+
+    void* heap_start = PHYS_TO_VIRT(pmm_alloc_page());
+    heap_init(&g_kernel_heap, heap_start, 4 * 4096);
 
     asm("hlt; hlt");
 }
