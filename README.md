@@ -37,9 +37,9 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] Heap
 - [x] PIT
 - [x] Scheduler
-- [ ] Syscalls
 - [ ] TSS
 - [ ] User task
+- [ ] Syscalls
 - [ ] Simple ramdisk
 - [ ] Program Loading
 - [ ] Basic Graphics 
