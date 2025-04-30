@@ -39,6 +39,7 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] Scheduler
 - [ ] TSS
 - [ ] User task
+- [ ] SMP
 - [ ] Syscalls
 - [ ] Simple ramdisk
 - [ ] Program Loading
