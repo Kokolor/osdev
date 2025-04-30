@@ -2,6 +2,7 @@
 // Created by kokolor on 29/04/25.
 //
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include "limine.h"
@@ -21,34 +22,48 @@ struct limine_framebuffer_request framebuffer_request = {
     .revision = 0
 };
 
-uint64_t read_cr3(void)
+void pit_init(const uint32_t frequency)
 {
-    uint64_t value;
-    __asm__ volatile ("mov %%cr3, %0" : "=r"(value) : : "memory");
-    return value;
+    outb(0x43, 0x36);
+    outb(0x40, 1193180 / frequency & 0xFF);
+    outb(0x40, (1193180 / frequency >> 8) & 0xFF);
+}
+
+const struct limine_framebuffer* g_framebuffer;
+
+uint64_t g_pit_ticks = 0;;
+
+void pit_handler(const struct registers* registers)
+{
+    (void)registers;
+    g_pit_ticks++;
+    for (size_t i = 0; i < g_pit_ticks; i++)
+    {
+        volatile uint32_t* framebuffer_ptr = g_framebuffer->address;
+        framebuffer_ptr[(g_framebuffer->pitch / 4) + i] = 0xff0000;
+    }
 }
 
 void entry()
 {
-    const struct limine_framebuffer* framebuffer = framebuffer_request.response->framebuffers[0];
+    g_framebuffer = framebuffer_request.response->framebuffers[0];
     gdt_init();
+    e9_printf("GDT Initialized");
     idt_init();
+    e9_printf("IDT Initialized");
     pmm_init();
+    e9_printf("PMM Initialized");
     vmm_init();
-
-    for (size_t i = 0; i < 100; i++)
-    {
-        volatile uint32_t* framebuffer_ptr = framebuffer->address;
-        framebuffer_ptr[(framebuffer->pitch / 4) + i] = 0xffffff;
-    }
-
-    e9_printf("Current CR3: %x", read_cr3());
-    uint64_t* new_pml4 = vmm_new_pml4();
-    vmm_switch_pml4(new_pml4);
-    e9_printf("New CR3: %x", read_cr3());
+    e9_printf("VMM Initialized");
 
     void* heap_start = PHYS_TO_VIRT(pmm_alloc_page());
     heap_init(&g_kernel_heap, heap_start, 4 * 4096);
 
-    asm("hlt; hlt");
+    pit_init(1000);
+    idt_set_irq(0, pit_handler);
+
+    while (1)
+    {
+        asm("hlt");
+    }
 }

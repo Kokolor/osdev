@@ -30,12 +30,12 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] GDT
 - [x] IDT
 - [x] Very Basic Printf
-- [ ] PIC
-- [ ] IRQs
+- [x] PIC
+- [x] IRQs
 - [x] PMM
 - [x] VMM
 - [x] Heap
-- [ ] PIT
+- [x] PIT
 - [ ] Scheduler
 - [ ] Syscalls
 - [ ] User task

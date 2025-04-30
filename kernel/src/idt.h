@@ -53,6 +53,7 @@ struct registers
 extern void* isr_stub_table[];
 
 void idt_reload(struct idt_ptr* idt);
+void idt_set_irq(uint8_t irq, void* handler);
 void idt_init(void);
 
 #endif //IDT_H

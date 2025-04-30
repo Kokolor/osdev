@@ -26,7 +26,7 @@ uint64_t* vmm_new_pml4(void)
     uint64_t* pml4 = PHYS_TO_VIRT(pmm_alloc_page());
     memset(pml4, 0, 4096);
 
-    for (size_t i = 256; i < 512; i++)
+    for (size_t i = 0; i < 512; i++)
     {
         pml4[i] = g_kernel_pml4[i];
     }
