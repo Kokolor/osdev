@@ -8,6 +8,8 @@
 #include "io.h"
 #include "pmm.h"
 
+#include "printf.h"
+
 struct limine_hhdm_request hhdm_request = {
     .id = LIMINE_HHDM_REQUEST,
     .revision = 0
@@ -109,8 +111,8 @@ void pmm_init(void)
     e9_printf("Memmap:");
     for (size_t i = 0; i < g_pmm_info.memmap->entry_count; i++)
     {
-        e9_printf("%x %x %s", g_pmm_info.memmap->entries[i]->base, g_pmm_info.memmap->entries[i]->length,
-                  get_memmap_type(g_pmm_info.memmap->entries[i]->type));
+        printf("Base: 0x%16llx | Length: 0x%16llx | Type: %s\n", g_pmm_info.memmap->entries[i]->base,
+               g_pmm_info.memmap->entries[i]->length, get_memmap_type(g_pmm_info.memmap->entries[i]->type));
     }
 
     struct limine_memmap_entry** entries = g_pmm_info.memmap->entries;

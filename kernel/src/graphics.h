@@ -5,9 +5,12 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+extern uint32_t g_color;
+
 void set_pixel(const uint32_t x, const uint32_t y, const uint32_t color);
 void set_rectangle(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height,
                    const uint32_t color);
+void set_string(const char* str, const int x, const int y, const uint32_t color);
 void framebuffer_init(void);
 
 #endif //GRAPHICS_H

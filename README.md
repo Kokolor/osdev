@@ -39,7 +39,7 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] Scheduler
 - [x] TSS
 - [x] Basic Graphics 
-- [ ] Printing onto the screen
+- [x] Printing onto the screen
 - [ ] User task
 - [ ] SMP
 - [ ] Syscalls

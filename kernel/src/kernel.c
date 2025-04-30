@@ -2,6 +2,9 @@
 // Created by kokolor on 29/04/25.
 //
 
+#include <stdio.h>
+
+#include "printf.h"
 #include "limine.h"
 #include "gdt.h"
 #include "graphics.h"
@@ -20,7 +23,8 @@ void task1(void)
 {
     while (1)
     {
-        set_rectangle(125, 125, 95, 45, 0x00FF00);
+        set_string("Task1", 125, 125, 0xFFFFFF);
+        set_rectangle(120, 120, 450, 350, 0x00FF00);
     }
 }
 
@@ -28,22 +32,23 @@ void task2(void)
 {
     while (1)
     {
-        set_rectangle(15, 15, 75, 15, 0xFF0000);
+        set_string("Task2", 605, 405, 0xFFFFFF);
+        set_rectangle(600, 400, 250, 200, 0xFF0000);
     }
 }
 
 void entry()
 {
-    gdt_init();
-    e9_printf("GDT Initialized");
-    idt_init();
-    e9_printf("IDT Initialized");
-    pmm_init();
-    e9_printf("PMM Initialized");
-    vmm_init();
-    e9_printf("VMM Initialized");
-
     framebuffer_init();
+
+    gdt_init();
+    printf("GDT Initialized\n");
+    idt_init();
+    printf("IDT Initialized\n");
+    pmm_init();
+    printf("PMM Initialized\n");
+    vmm_init();
+    printf("VMM Initialized\n");
 
     void* heap_start = PHYS_TO_VIRT(pmm_alloc_page());
     heap_init(&g_kernel_heap, heap_start, 4 * 4096);
