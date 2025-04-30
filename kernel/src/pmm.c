@@ -137,8 +137,8 @@ void pmm_init(void)
     {
         if (entries[i]->type == LIMINE_MEMMAP_USABLE)
         {
-            uint64_t start_page = entries[i]->base / 4096;
-            uint64_t page_count = entries[i]->length / 4096;
+            const uint64_t start_page = entries[i]->base / 4096;
+            const uint64_t page_count = entries[i]->length / 4096;
 
             for (uint64_t j = 0; j < page_count; j++)
             {
