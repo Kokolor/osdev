@@ -86,6 +86,6 @@ void heap_init(struct heap* heap, void* start, const uint64_t size)
     heap->start = start;
     heap->size = size;
     heap->free_list = (struct block*)start;
-    heap->free_list->size = size - sizeof(struct block*);
+    heap->free_list->size = size - sizeof(struct block);
     heap->free_list->next = NULL;
 }
