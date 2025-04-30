@@ -42,12 +42,12 @@ This kernel is currently in the early development stage. Documentation will be p
 - [ ] User task
 - [ ] Simple ramdisk
 - [ ] Program Loading
-- [ ] PCI
+- [ ] Basic Graphics 
+- [ ] Printing onto the screen
 - [ ] PS2 Keyboard
 - [ ] PS2 Mouse
 - [ ] Double Buffering
-- [ ] Basic Graphics
-- [ ] Printing onto the screen
+- [ ] PCI
 - [ ] FS
 - [ ] Shell
 - [ ] Basic GUI
