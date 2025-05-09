@@ -28,6 +28,6 @@ struct gdt_ptr
 
 void gdt_reload(struct gdt_ptr* gdt);
 void segments_reload(void);
-void gdt_init(void);
+void gdt_init(uint64_t stack);
 
 #endif //GDT_H

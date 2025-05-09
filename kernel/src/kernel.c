@@ -41,12 +41,13 @@ void entry()
 {
     framebuffer_init();
 
-    gdt_init();
+    pmm_init();
+    printf("PMM Initialized\n");
+    void* kstack = PHYS_TO_VIRT(pmm_alloc_page());
+    gdt_init((uint64_t)kstack);
     printf("GDT Initialized\n");
     idt_init();
     printf("IDT Initialized\n");
-    pmm_init();
-    printf("PMM Initialized\n");
     vmm_init();
     printf("VMM Initialized\n");
 
