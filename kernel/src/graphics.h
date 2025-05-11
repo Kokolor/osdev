@@ -6,6 +6,7 @@
 #define GRAPHICS_H
 
 extern uint32_t g_color;
+extern uint32_t g_x, g_y;
 
 void set_pixel(const uint32_t x, const uint32_t y, const uint32_t color);
 void set_rectangle(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height,

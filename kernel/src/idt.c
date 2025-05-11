@@ -5,7 +5,9 @@
 #include "panic.h"
 #include "idt.h"
 
+#include "graphics.h"
 #include "io.h"
+#include "printf.h"
 
 struct idt_entry g_idt_entries[256];
 struct idt_ptr g_idt_ptr;
@@ -48,20 +50,18 @@ const char* exception_messages[32] = {
 
 void exception_handler(const struct registers* registers)
 {
-    e9_printf("Registers dump:");
-    e9_printf("RAX: %x  RBX: %x", registers->rax, registers->rbx);
-    e9_printf("RCX: %x  RDX: %x", registers->rcx, registers->rdx);
-    e9_printf("RSI: %x  RDI: %x", registers->rsi, registers->rdi);
-    e9_printf("RBP: %x  RSP: %x", registers->rbp, registers->rsp);
-    e9_printf("R8:  %x  R9:  %x", registers->r8, registers->r9);
-    e9_printf("R10: %x  R11: %x", registers->r10, registers->r11);
-    e9_printf("R12: %x  R13: %x", registers->r12, registers->r13);
-    e9_printf("R14: %x  R15: %x", registers->r14, registers->r15);
-    e9_printf("RIP: %x  RFLAGS: %x", registers->rip, registers->rflags);
-    e9_printf("CS:  %x  SS: %x", registers->cs, registers->ss);
-    e9_printf("Error Code: %x", registers->error_code);
+    if (registers->int_no < 32)
+    {
+        g_x = 0;
+        g_y = 0;
+        g_color = 0xFF0000;
+        set_rectangle(0, 0, 240, 64, 0x000000);
+        printf("RIP: 0x%x  RFLAGS: 0x%x\n", registers->rip, registers->rflags);
+        printf("CS:  0x%x  SS: 0x%x\n", registers->cs, registers->ss);
+        printf("Error Code: 0x%x\n", registers->error_code);
 
-    panic(exception_messages[registers->int_no]);
+        panic(exception_messages[registers->int_no]);
+    }
 }
 
 void idt_set_irq(const uint8_t irq, void* handler)
