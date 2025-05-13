@@ -4,7 +4,6 @@
 
 #include "panic.h"
 #include "idt.h"
-
 #include "graphics.h"
 #include "io.h"
 #include "printf.h"

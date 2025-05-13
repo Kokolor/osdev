@@ -7,9 +7,14 @@ all: $(IMAGE)
 kernel:
 	make -C kernel
 
-$(IMAGE): kernel
+.PHONY: ramdisk
+ramdisk:
+	tar -cf ramdisk.tar -C ramdisk_root .
+
+$(IMAGE): kernel ramdisk
 	rm -rf iso_root
 	mkdir -p iso_root/boot/limine/
+	cp ramdisk.tar iso_root/
 	cp -v kernel/kernel.elf iso_root/boot/
 	cp -v limine.conf iso_root/boot/limine/
 	mkdir -p iso_root/EFI/BOOT/

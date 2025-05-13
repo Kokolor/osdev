@@ -108,13 +108,6 @@ void pmm_init(void)
 {
     g_pmm_info.memmap = memmap_request.response;
 
-    e9_printf("Memmap:");
-    for (size_t i = 0; i < g_pmm_info.memmap->entry_count; i++)
-    {
-        printf("Base: 0x%16llx | Length: 0x%16llx | Type: %s\n", g_pmm_info.memmap->entries[i]->base,
-               g_pmm_info.memmap->entries[i]->length, get_memmap_type(g_pmm_info.memmap->entries[i]->type));
-    }
-
     struct limine_memmap_entry** entries = g_pmm_info.memmap->entries;
 
     g_pmm_info.total_pages = 0;

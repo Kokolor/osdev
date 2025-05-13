@@ -3,7 +3,6 @@
 //
 
 #include <stdio.h>
-
 #include "printf.h"
 #include "limine.h"
 #include "gdt.h"
@@ -14,6 +13,8 @@
 #include "pit.h"
 #include "pmm.h"
 #include "process.h"
+#include "string.h"
+#include "tar.h"
 #include "vmm.h"
 
 __attribute__((used, section(".limine_requests")))
@@ -37,6 +38,22 @@ void task2(void)
     }
 }
 
+struct limine_internal_module ramdisk = {
+    .path = "/ramdisk.tar"
+};
+
+struct limine_internal_module* modules[] = {
+    &ramdisk
+};
+
+struct limine_module_request module_request = {
+    .id = LIMINE_MODULE_REQUEST,
+    .revision = 1,
+    .response = NULL,
+    .internal_module_count = 1,
+    .internal_modules = modules
+};
+
 void entry()
 {
     framebuffer_init();
@@ -51,13 +68,30 @@ void entry()
     vmm_init();
     printf("VMM Initialized\n");
 
+    struct limine_file* file = module_request.response->modules[0];
+    printf("Found ramdisk: %s\n", file->path);
+    tar_init(file->address);
+
+    struct tar_file hello;
+    if (tar_find_file("./hello.txt", &hello) == 0)
+    {
+        printf("Found ./hello.txt. Content: \n");
+        for (size_t i = 0; i < hello.size; i++)
+        {
+            printf("%c", ((char*)hello.data)[i]);
+        }
+    } else
+    {
+        printf("./hello.txt not found");
+    }
+
     void* heap_start = PHYS_TO_VIRT(pmm_alloc_page());
     heap_init(&g_kernel_heap, heap_start, 4 * 4096);
 
-    pit_init(1000);
+    /* pit_init(1000);
     process_create(task1);
     process_create(task2);
-    idt_set_irq(0, pit_handler);
+    idt_set_irq(0, pit_handler); */
 
     while (1)
     {

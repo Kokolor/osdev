@@ -26,7 +26,7 @@ void gdt_init(uint64_t stack)
     g_gdt_entries[5] = (tss_limit & 0xFFFF) | ((tss_address & 0xFFFFFF) << 16) | (0x9ULL << 40) | (1ULL << 47) | (3ULL
         << 45) | ((tss_limit >> 16 & 0xF) << 48) | ((tss_address >> 24 & 0xFF) << 56);
 
-    *((uint64_t*)&g_gdt_entries[6]) = (tss_address >> 32) & 0xFFFFFFFF;
+    g_gdt_entries[6] = (tss_address >> 32) & 0xFFFFFFFF;
 
     g_gdt_ptr.limit = sizeof(g_gdt_entries) - 1;
     g_gdt_ptr.address = (uint64_t)&g_gdt_entries;

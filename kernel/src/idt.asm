@@ -58,7 +58,7 @@ isr_stub_%+%1:
 isr_stub_%+%1:
     push %1
     pushall
-    mov rsi, rsp
+    mov rdi, rsp
     call exception_handler
     popall
     add rsp, 16
@@ -131,9 +131,9 @@ irq_stub 47
 
 global isr_stub_table
 isr_stub_table:
-%assign i 0
-%rep    48
-    dq isr_stub_%+i
-%assign i i+1
-%endrep
+    %assign i 0
+    %rep 48
+        dq isr_stub_%+i
+    %assign i i+1
+    %endrep
 

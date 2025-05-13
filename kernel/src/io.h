@@ -8,6 +8,5 @@
 #include <stdint.h>
 
 void outb(uint16_t port, uint8_t value);
-void e9_printf(const char* format, ...);
 
 #endif //IO_H
