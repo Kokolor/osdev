@@ -41,7 +41,6 @@ struct limine_module_request module_request = {
 void entry()
 {
     framebuffer_init();
-
     pmm_init();
     printf("PMM Initialized\n");
     void* kstack = PHYS_TO_VIRT(pmm_alloc_page());
