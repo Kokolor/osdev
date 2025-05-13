@@ -25,8 +25,17 @@ struct tar_file
     size_t size;
 };
 
+struct tar_handle
+{
+    void* data;
+    size_t size;
+    size_t offset;
+};
+
 uint32_t octal_to_uint32(const char* input);
 int tar_find_file(const char* filename, struct tar_file* out);
+int tar_open(const char* filename, struct tar_handle* handle);
+size_t tar_read(struct tar_handle* handle, void* buf, const size_t count);
 void tar_init(uint8_t* base);
 
 #endif //TAR_H

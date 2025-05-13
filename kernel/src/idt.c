@@ -61,6 +61,10 @@ void exception_handler(const struct registers* registers)
 
         panic(exception_messages[registers->int_no]);
     }
+    else if (registers->int_no == 0x80)
+    {
+        printf("Syscall!");
+    }
 }
 
 void idt_set_irq(const uint8_t irq, void* handler)
@@ -111,6 +115,8 @@ void idt_init(void)
     {
         idt_set_entry(vector, isr_stub_table[vector], 0x8E);
     }
+
+    idt_set_entry(0x80, isr_stub_table[128], 0xEE);
 
     idt_reload(&g_idt_ptr);
 }

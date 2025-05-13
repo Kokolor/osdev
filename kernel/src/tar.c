@@ -43,6 +43,34 @@ int tar_find_file(const char* filename, struct tar_file* out)
     return -1;
 }
 
+int tar_open(const char* filename, struct tar_handle* handle)
+{
+    struct tar_file file;
+
+    if (tar_find_file(filename, &file) != 0)
+    {
+        return -1;
+    }
+
+    handle->data = file.data;
+    handle->size = file.size;
+    handle->offset = 0;
+
+    return 0;
+}
+
+size_t tar_read(struct tar_handle* handle, void* buf, const size_t count)
+{
+    const size_t remaining = handle->size - handle->offset;
+    const size_t to_read = count < remaining ? count : remaining;
+
+    memcpy(buf, (uint8_t*)handle->data + handle->offset, to_read);
+    handle->offset += to_read;
+
+    return to_read;
+}
+
+
 void tar_init(uint8_t* base)
 {
     g_tar_base = base;

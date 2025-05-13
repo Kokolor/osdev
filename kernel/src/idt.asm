@@ -97,6 +97,7 @@ isr_no_err_stub 28
 isr_no_err_stub 29
 isr_err_stub 30
 isr_no_err_stub 31
+isr_no_err_stub 128
 
 extern irq_handler
 
@@ -137,3 +138,12 @@ isr_stub_table:
     %assign i i+1
     %endrep
 
+    %rep 80
+        dq isr_stub_0
+    %endrep
+
+    dq isr_stub_128
+
+    %rep 127
+        dq isr_stub_0
+    %endrep

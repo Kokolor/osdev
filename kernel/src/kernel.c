@@ -3,6 +3,8 @@
 //
 
 #include <stdio.h>
+
+#include "elf.h"
 #include "printf.h"
 #include "limine.h"
 #include "gdt.h"
@@ -19,24 +21,6 @@
 
 __attribute__((used, section(".limine_requests")))
 LIMINE_BASE_REVISION(3);
-
-void task1(void)
-{
-    while (1)
-    {
-        set_string("Task1", 125, 125, 0xFFFFFF);
-        set_rectangle(120, 120, 450, 350, 0x00FF00);
-    }
-}
-
-void task2(void)
-{
-    while (1)
-    {
-        set_string("Task2", 605, 405, 0xFFFFFF);
-        set_rectangle(600, 400, 250, 200, 0xFF0000);
-    }
-}
 
 struct limine_internal_module ramdisk = {
     .path = "/ramdisk.tar"
@@ -72,26 +56,26 @@ void entry()
     printf("Found ramdisk: %s\n", file->path);
     tar_init(file->address);
 
-    struct tar_file hello;
-    if (tar_find_file("./hello.txt", &hello) == 0)
-    {
-        printf("Found ./hello.txt. Content: \n");
-        for (size_t i = 0; i < hello.size; i++)
-        {
-            printf("%c", ((char*)hello.data)[i]);
-        }
-    } else
-    {
-        printf("./hello.txt not found");
-    }
-
     void* heap_start = PHYS_TO_VIRT(pmm_alloc_page());
     heap_init(&g_kernel_heap, heap_start, 4 * 4096);
 
-    /* pit_init(1000);
-    process_create(task1);
-    process_create(task2);
-    idt_set_irq(0, pit_handler); */
+    struct tar_handle loop_handle;
+
+    if (tar_open("./loop.elf", &loop_handle) == 0)
+    {
+        void* entry = elf_load_file(loop_handle.data);
+        if (entry)
+        {
+            process_create(entry);
+        }
+        else
+        {
+            printf("Error load ELF (skibidi neuil)\n");
+        }
+    }
+
+    pit_init(1000);
+    idt_set_irq(0, pit_handler);
 
     while (1)
     {
