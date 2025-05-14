@@ -9,9 +9,15 @@ kernel:
 
 .PHONY: ramdisk
 ramdisk:
+	mkdir -p ramdisk_root
+	cp apps/hello.elf ramdisk_root
 	tar -cf ramdisk.tar -C ramdisk_root .
 
-$(IMAGE): kernel ramdisk
+.PHONY: apps
+apps:
+	make -C apps
+
+$(IMAGE): kernel apps ramdisk
 	rm -rf iso_root
 	mkdir -p iso_root/boot/limine/
 	cp ramdisk.tar iso_root/
@@ -34,5 +40,6 @@ run: $(IMAGE)
 
 .PHONY: clean
 clean:
-	rm -rf iso_root $(IMAGE)
-	make -C kernel clean
+	rm -rf iso_root $(IMAGE) ramdisk*
+	make clean -C kernel
+	make clean -C apps
