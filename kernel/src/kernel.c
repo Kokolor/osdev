@@ -59,13 +59,14 @@ void entry()
     heap_init(&g_kernel_heap, heap_start, 4 * 4096);
 
     struct tar_handle loop_handle;
+    uint64_t* pml4 = vmm_new_pml4();
 
     if (tar_open("./loop.elf", &loop_handle) == 0)
     {
-        void* entry = elf_load_file(loop_handle.data);
+        void* entry = elf_load_file(loop_handle.data, pml4, RING_3);
         if (entry)
         {
-            process_create(entry);
+            process_create(entry, pml4, RING_3);
         }
         else
         {

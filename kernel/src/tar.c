@@ -70,7 +70,6 @@ size_t tar_read(struct tar_handle* handle, void* buf, const size_t count)
     return to_read;
 }
 
-
 void tar_init(uint8_t* base)
 {
     g_tar_base = base;

@@ -43,7 +43,7 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] Simple ramdisk
 - [x] Very Very Basic Syscalls
 - [x] Program Loading
-- [ ] User task
+- [x] User task
 - [ ] More advanced syscalls
 - [ ] SMP
 - [ ] PS2 Keyboard

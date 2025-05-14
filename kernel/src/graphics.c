@@ -65,10 +65,11 @@ void set_string(const char* str, const int x, const int y, const uint32_t color)
 
 void print_character(const char c)
 {
-    if (c == '\n')
+    if (c == '\n' || g_x + 8 > g_framebuffer->width)
     {
         g_x = 0;
         g_y += 16;
+
         return;
     }
 

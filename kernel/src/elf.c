@@ -5,6 +5,7 @@
 #include "elf.h"
 #include "pmm.h"
 #include "printf.h"
+#include "process.h"
 #include "string.h"
 #include "vmm.h"
 
@@ -25,7 +26,7 @@ int elf64_is_valid(Elf64_Ehdr* hdr)
     return 1;
 }
 
-void* elf_load_file(void* file)
+void* elf_load_file(void* file, const uint64_t* pml4, const int ring)
 {
     Elf64_Ehdr* header = file;
 
@@ -47,7 +48,10 @@ void* elf_load_file(void* file)
         for (uint64_t off = 0; off < memsz; off += 0x1000)
         {
             void* phys = pmm_alloc_page();
-            vmm_map(g_kernel_pml4, (uint64_t)phys, virt + off, 3);
+            if (ring == RING_0)
+                vmm_map(pml4, (uint64_t)phys, virt + off, 1 | 2);
+            else
+                vmm_map(pml4, (uint64_t)phys, virt + off, 1 | 2 | 4);
         }
 
         memcpy((void*)virt, (uint8_t*)file + offset, filesz);

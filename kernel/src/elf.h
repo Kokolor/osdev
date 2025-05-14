@@ -37,6 +37,6 @@ typedef struct
     uint64_t p_align;
 } Elf64_Phdr;
 
-void* elf_load_file(void* file);
+void* elf_load_file(void* file, const uint64_t* pml4, const int ring);
 
 #endif //ELF_H

@@ -39,7 +39,7 @@ void schedule(struct registers* registers)
     g_current_idx = next_process;
 }
 
-int process_create(const process_entry entry)
+int process_create(const process_entry entry, uint64_t* pml4, const int ring)
 {
     for (size_t i = 0; i < MAX_PROCESSES; i++)
     {
@@ -48,16 +48,20 @@ int process_create(const process_entry entry)
             g_processes[i].pid = g_next_pid++;
             g_processes[i].active = 1;
             g_processes[i].entry = entry;
+            g_processes[i].pml4 = pml4;
             uint8_t* buffer = PHYS_TO_VIRT(pmm_alloc_page());
+            if (ring == RING_3)
+            {
+                vmm_map(g_processes[i].pml4, (uint64_t)VIRT_TO_PHYS(buffer), ((uint64_t)buffer), 1 | 2 | 4);
+            }
             g_processes[i].stack = buffer;
             g_processes[i].stack_top = buffer + 4096;
-            g_processes[i].pml4 = vmm_new_pml4();
 
             memset(&g_processes[i].registers, 0, sizeof(struct registers));
 
             g_processes[i].registers.rip = (uint64_t)entry;
-            g_processes[i].registers.cs = 0x08;
-            g_processes[i].registers.ss = 0x10;
+            g_processes[i].registers.cs = (ring ? 0x1b : 0x08);
+            g_processes[i].registers.ss = (ring ? 0x23 : 0x10);
             g_processes[i].registers.rflags = 0x202;
             g_processes[i].registers.rsp = (uint64_t)g_processes[i].stack_top;
 

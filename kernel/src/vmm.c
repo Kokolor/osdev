@@ -7,6 +7,8 @@
 #include "pmm.h"
 #include "vmm.h"
 
+#include "printf.h"
+
 // Thanks again to https://github.com/asterd-og/ZanOS/
 
 struct limine_kernel_address_request kernel_address_request = {
@@ -46,7 +48,7 @@ uint64_t* vmm_get_next_level(uint64_t* level, const uint64_t entry, const uint64
 
     uint64_t* pml = PHYS_TO_VIRT(pmm_alloc_page());
     memset(pml, 0, 4096);
-    level[entry] = (uint64_t)VIRT_TO_PHYS(pml) | flags;
+    level[entry] = (uint64_t)VIRT_TO_PHYS(pml) | (flags | 0x4);
 
     return pml;
 }
