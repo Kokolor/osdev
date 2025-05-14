@@ -12,6 +12,7 @@
 #include "heap.h"
 #include "idt.h"
 #include "io.h"
+#include "keyboard.h"
 #include "pit.h"
 #include "pmm.h"
 #include "process.h"
@@ -64,7 +65,7 @@ void entry()
     g_x = 0;
     g_y = 0;
 
-    if (tar_open("./hello.elf", &loop_handle) == 0)
+    if (tar_open("./shell.elf", &loop_handle) == 0)
     {
         void* entry = elf_load_file(loop_handle.data, pml4, RING_3);
         if (entry)
@@ -79,6 +80,7 @@ void entry()
 
     pit_init(1000);
     idt_set_irq(0, pit_handler);
+    idt_set_irq(1, keyboard_handler);
 
     while (1)
     {

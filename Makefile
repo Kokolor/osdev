@@ -10,7 +10,7 @@ kernel:
 .PHONY: ramdisk
 ramdisk:
 	mkdir -p ramdisk_root
-	cp apps/hello.elf ramdisk_root
+	cp apps/*.elf ramdisk_root
 	tar -cf ramdisk.tar -C ramdisk_root .
 
 .PHONY: apps
