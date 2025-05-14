@@ -7,6 +7,7 @@
 #include "graphics.h"
 #include "io.h"
 #include "printf.h"
+#include "syscall.h"
 
 struct idt_entry g_idt_entries[256];
 struct idt_ptr g_idt_ptr;
@@ -63,7 +64,7 @@ void exception_handler(const struct registers* registers)
     }
     else if (registers->int_no == 0x80)
     {
-        printf("Syscall!");
+        syscall_handler(registers);
     }
 }
 

@@ -8,6 +8,8 @@
 #include "vmm.h"
 #include "process.h"
 
+#include "printf.h"
+
 struct process g_processes[MAX_PROCESSES];
 int g_current_idx = -1;
 uint8_t g_next_pid = 1;
