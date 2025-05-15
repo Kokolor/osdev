@@ -46,12 +46,12 @@ This kernel is currently in the early development stage. Documentation will be p
 - [x] User task
 - [ ] More advanced syscalls
 - [ ] SMP
-- [ ] PS2 Keyboard
+- [x] PS2 Keyboard
 - [ ] PS2 Mouse
 - [ ] Double Buffering
 - [ ] PCI
 - [ ] FS
-- [ ] Shell
+- [x] Shell
 - [ ] Basic GUI
 
 ## License
